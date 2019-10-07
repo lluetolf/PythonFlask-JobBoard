@@ -36,4 +36,8 @@ def close_connection(exception):
 @app.route('/')
 @app.route('/jobs')
 def jobs():
-    return render_template('index.html')
+    sql = 'SELECT job.id, job.title, job.description, job.salary, ' \
+          'employer.id as employer_id, employer.name as employer_name ' \
+          'FROM job JOIN employer on employer.id = job.employer_id'
+    jobs = execute_sql(sql)
+    return render_template('index.html', jobs=jobs)
